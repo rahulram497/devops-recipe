@@ -119,9 +119,9 @@ resource "aws_security_group" "endpoint_access" {
 
   ingress {
     cidr_blocks = [aws_vpc.main.cidr_block]
-    from_port  = 443
-    to_port    = 443
-    protocol   = "tcp"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
   }
 }
 
@@ -200,7 +200,6 @@ resource "aws_vpc_endpoint" "s3" {
   route_table_ids = [
     aws_vpc.main.default_route_table_id
   ]
-
   tags = {
     Name = "${local.prefix}-s3-endpoint"
   }
