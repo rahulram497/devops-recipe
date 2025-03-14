@@ -39,6 +39,8 @@ jobs:
                 docker build --compress -t ${{ vars.ECR_REPO_PROXY }}:GITHUB_SHA proxy/
                 docker push ${{ vars.ECR_REPO_PROXY }}:GITHUB_SHA
 
+
+
             - name: Terraform Apply
               env: 
                 AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
@@ -46,6 +48,8 @@ jobs:
                 TF_VAR_db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
                 TF_VAR_django_secret_key: ${{secrets.TF_VAR_DJANGO_SECRET_KEY }}
               run: |
+                echo "::add-mask::$TF_VAR_db_password"
+                echo "TF_VAR_db_password length: ${#TF_VAR_db_password}"
                 export TF_VAR_ecr_app_image="${{ vars.ECR_REPO_APP }}:$GITHUB_SHA"
                 export TF_VAR_ecr_proxy_image="${{ vars.ECR_REPO_PROXY }}:GITHUB_SHA"
                 workspace=$(cat .workspace)
